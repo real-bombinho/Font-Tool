@@ -50,7 +50,6 @@ type
     procedure ListBox1ItemClick(const Sender: TCustomListBox;
       const Item: TListBoxItem);
     procedure PaintBox1Paint(Sender: TObject; Canvas: TCanvas);
-    procedure Edit1Change(Sender: TObject);
     procedure Edit1KeyUp(Sender: TObject; var Key: Word; var KeyChar: Char;
       Shift: TShiftState);
     procedure Edit1KeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
@@ -60,7 +59,6 @@ type
     procedure ListBox1KeyUp(Sender: TObject; var Key: Word; var KeyChar: Char;
       Shift: TShiftState);
   private
-    FMetrics: TMetrics;
     Font: TFont;
     procedure DrawGuide(Canvas: TCanvas; const ClipRect: TRectF;
       const Opacity: single = 1);
@@ -76,12 +74,6 @@ var
 implementation
 
 {$R *.fmx}
-
-procedure TForm3.Edit1Change(Sender: TObject);
-var m: TMetrics;
-begin
-
-end;
 
 procedure TForm3.Edit1KeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
   Shift: TShiftState);
@@ -141,7 +133,7 @@ var p, d: TPointF;
 begin
   Canvas.Stroke.Color := TAlphaColors.Gray;
   Canvas.Stroke.Kind := TBrushKind.Solid;;
-  Canvas.Stroke.Thickness := 2;
+  Canvas.Stroke.Thickness := 1;
     begin
       p.X := ClipRect.Left + long;
       p.Y := ClipRect.Top;
@@ -210,11 +202,9 @@ end;
 
 procedure TForm3.PaintBox1MouseWheel(Sender: TObject; Shift: TShiftState;
   WheelDelta: Integer; var Handled: Boolean);
-var r: single;
 begin
   if ssCtrl in Shift then
   begin
-    r := PaintBox1.scale.x;
     if wheeldelta < 0 then
     begin
       Font.Size := Font.Size - 1;
@@ -235,7 +225,6 @@ var r: TRectF;
     s: string;
     t: single;
     m: TMetrics;
-    la, le: TPointF ;
 begin
   PaintBox1.Canvas.Font.Family := Font.Family;
   PaintBox1.Canvas.Font.Style := Font.Style;;

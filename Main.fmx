@@ -73,7 +73,6 @@ object Form3: TForm3
       Size.Width = 89.000000000000000000
       Size.Height = 22.000000000000000000
       Size.PlatformDefault = False
-      OnChange = Edit1Change
       OnKeyDown = Edit1KeyDown
       OnKeyUp = Edit1KeyUp
     end
