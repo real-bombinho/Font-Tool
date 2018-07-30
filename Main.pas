@@ -20,7 +20,6 @@ type
     Descender: single;
     Bottom: single;
     constructor Create(const Font: TFont);
-    procedure Read(Font: TFont);
   end;
 
   TForm3 = class(TForm)
@@ -64,6 +63,7 @@ type
       const Opacity: single = 1);
     function fetchMetrics: TMetrics;
     procedure DisplayMetrics;
+    procedure Refresh;
   public
     { Public declarations }
   end;
@@ -94,7 +94,7 @@ end;
 procedure TForm3.Edit1KeyUp(Sender: TObject; var Key: Word; var KeyChar: Char;
   Shift: TShiftState);
 begin
-  DisplayMetrics;
+  Refresh;
 end;
 
 procedure TForm3.DisplayMetrics;
@@ -127,7 +127,7 @@ end;
 procedure TForm3.DrawGuide(Canvas: TCanvas; const ClipRect: TRectF;
   const Opacity: single = 1);
 
-const long: single = 10;
+const long: single = 6;
 var p, d: TPointF;
 
 begin
@@ -186,7 +186,7 @@ procedure TForm3.ListBox1ItemClick(const Sender: TCustomListBox;
 begin
   edit2.Text := Item.Text;
   Font.Family := edit2.Text;
-  PaintBox1.Repaint;
+  Refresh;
 end;
 
 procedure TForm3.ListBox1KeyUp(Sender: TObject; var Key: Word;
@@ -196,7 +196,7 @@ begin
   begin
     edit2.Text := ListBox1.Items[ListBox1.ItemIndex];
     Font.Family := edit2.Text;
-    PaintBox1.Repaint;
+    Refresh;
   end;
 end;
 
@@ -208,13 +208,13 @@ begin
     if wheeldelta < 0 then
     begin
       Font.Size := Font.Size - 1;
-      PaintBox1.Repaint;
+      Refresh;
     end
     else
     if wheeldelta > 0 then
     begin
       Font.Size := Font.Size + 1;
-      PaintBox1.Repaint;
+      Refresh;
     end;
     edit1.Text := inttostr(round(Font.Size));
   end;
@@ -256,14 +256,15 @@ begin
   m.Free;
 end;
 
+procedure TForm3.Refresh;
+begin
+  PaintBox1.Repaint;
+  DisplayMetrics;
+end;
+
 { TMetrics }
 
 constructor TMetrics.Create(const Font: TFont);
-begin
-  read(font);
-end;
-
-procedure TMetrics.Read(Font: TFont);
 var r: TRectF;
     canvas: TCanvas;
     p: TPathData;
