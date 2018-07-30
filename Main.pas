@@ -11,14 +11,19 @@ uses
 type
   TMetrics = class
   private
-
+    FCaps: single;
+    FAscender: single;
+    FBottom: single;
+    FBase: single;
+    FTop: single;
+    FDescender: single;
   public
-    Top: single;
-    Ascender: single;
-    Base: single;
-    Caps: single;
-    Descender: single;
-    Bottom: single;
+    property Top: single read FTop;
+    property Ascender: single read FAscender;
+    property Base: single read FBase;
+    property Caps: single read FCaps;
+    property Descender: single read FDescender;
+    property Bottom: single read FBottom;
     constructor Create(const Font: TFont);
   end;
 
@@ -57,6 +62,7 @@ type
       WheelDelta: Integer; var Handled: Boolean);
     procedure ListBox1KeyUp(Sender: TObject; var Key: Word; var KeyChar: Char;
       Shift: TShiftState);
+    procedure FormResize(Sender: TObject);
   private
     Font: TFont;
     procedure DrawGuide(Canvas: TCanvas; const ClipRect: TRectF;
@@ -181,6 +187,17 @@ begin
   DisplayMetrics;
 end;
 
+procedure TForm3.FormResize(Sender: TObject);
+var r: single;
+begin
+  Layout1.Height := ClientHeight;
+  r := Layout1.Width / 715;
+  if Layout1.Height / 480 <  r then r := Layout1.Height /480;
+
+  Layout1.Scale.X := r;
+  Layout1.Scale.Y := r;
+end;
+
 procedure TForm3.ListBox1ItemClick(const Sender: TCustomListBox;
   const Item: TListBoxItem);
 begin
@@ -208,15 +225,14 @@ begin
     if wheeldelta < 0 then
     begin
       Font.Size := Font.Size - 1;
-      Refresh;
     end
     else
     if wheeldelta > 0 then
     begin
       Font.Size := Font.Size + 1;
-      Refresh;
     end;
     edit1.Text := inttostr(round(Font.Size));
+    Refresh;
   end;
 end;
 
@@ -275,31 +291,32 @@ begin
   canvas.Font.Family := Font.Family;
   canvas.Font.Size := font.Size;
   canvas.Font.Style := font.Style;
-  Top := 0;
-  Bottom := Canvas.TextHeight('A');
-  r.Right := Canvas.TextWidth('A');
+  FTop := 0;
+  FBottom := Canvas.TextHeight('A') * canvas.Scale;
+  r.Right := Canvas.TextWidth('A') * canvas.Scale;
   r.Bottom := Bottom;
   r.Top := 0;
   r.Left := 0;
-  canvas.TextToPath(p, r, 'I', false, TTextAlign.Leading, TTextAlign.Leading);
-  Ascender := p[0].Point.y;
-  Base := p[1].Point.y;
+  canvas.TextToPath(p, r, 'I', false, TTextAlign.Leading, TTextAlign.Trailing);
+  FAscender := p[0].Point.y;
+  FBase := p[1].Point.y;
   for i := 1 to p.Count - 1 do
   begin
-    if p[i].Point.y < Ascender then Ascender := p[i].Point.y;
-    if p[i].Point.y > Base then Base := p[i].Point.y;
+    if p[i].Point.y < Ascender then FAscender := p[i].Point.y;
+    if p[i].Point.y > Base then FBase := p[i].Point.y;
   end;
   p.Clear;
-  canvas.TextToPath(p, r, 'y', false, TTextAlign.Leading, TTextAlign.Leading);
+  canvas.TextToPath(p, r, 'y', false, TTextAlign.Leading, TTextAlign.Trailing);
 //  showmessage(p.Data);
-  Caps := p[1].Point.y;
-  Descender := p[0].Point.y;
+  FCaps := p[1].Point.y;
+  FDescender := p[0].Point.y;
   for i := 1 to p.Count - 1 do
   begin
-    if p[i].Point.y < Caps then Caps := p[i].Point.y;
-    if p[i].Point.y > Descender then Descender := p[i].Point.y;
+    if p[i].Point.y < Caps then FCaps := p[i].Point.y;
+    if p[i].Point.y > Descender then FDescender := p[i].Point.y;
   end;
   p.Free;
 end;
+
 
 end.
