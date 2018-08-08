@@ -4,11 +4,11 @@ interface
 
 uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
-  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.ListBox,
-  FMX.Layouts, FMX.Controls.Presentation, FMX.StdCtrls, FMX.Edit, FMX.Objects,
-  FMX.Printer;
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Dialogs, FMX.Edit, FMX.Objects,
+  FMX.Layouts, FMX.ListBox, FMX.Printer;
 
 type
+
   TMetrics = class
   private
     FCaps: single;
@@ -27,12 +27,12 @@ type
     constructor Create(const Font: TFont);
   end;
 
-  TForm3 = class(TForm)
+  TForm1 = class(TForm)
+    Layout1: TLayout;
     ListBox1: TListBox;
     Label1: TLabel;
-    Layout1: TLayout;
-    PaintBox1: TPaintBox;
     Panel1: TPanel;
+    PaintBox1: TPaintBox;
     Label2: TLabel;
     Edit1: TEdit;
     Edit2: TEdit;
@@ -51,7 +51,7 @@ type
     Label15: TLabel;
     Label16: TLabel;
     procedure FormCreate(Sender: TObject);
-    procedure ListBox1ItemClick(const Sender: TCustomListBox;
+        procedure ListBox1ItemClick(const Sender: TCustomListBox;
       const Item: TListBoxItem);
     procedure PaintBox1Paint(Sender: TObject; Canvas: TCanvas);
     procedure Edit1KeyUp(Sender: TObject; var Key: Word; var KeyChar: Char;
@@ -63,6 +63,7 @@ type
     procedure ListBox1KeyUp(Sender: TObject; var Key: Word; var KeyChar: Char;
       Shift: TShiftState);
     procedure FormResize(Sender: TObject);
+    procedure ListBox1Click(Sender: TObject);
   private
     Font: TFont;
     procedure DrawGuide(Canvas: TCanvas; const ClipRect: TRectF;
@@ -75,13 +76,12 @@ type
   end;
 
 var
-  Form3: TForm3;
+  Form1: TForm1;
 
 implementation
 
 {$R *.fmx}
-
-procedure TForm3.Edit1KeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
+procedure TForm1.Edit1KeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
   Shift: TShiftState);
 begin
   case KeyChar of
@@ -97,18 +97,18 @@ begin
   end;
 end;
 
-procedure TForm3.Edit1KeyUp(Sender: TObject; var Key: Word; var KeyChar: Char;
+procedure TForm1.Edit1KeyUp(Sender: TObject; var Key: Word; var KeyChar: Char;
   Shift: TShiftState);
 begin
   Refresh;
 end;
 
-procedure TForm3.DisplayMetrics;
+procedure TForm1.DisplayMetrics;
 var m: TMetrics;
 
   function DispValue(const value: single): string ;
   begin
-    result := floattostrf((value / PaintBox1.Canvas.Scale), TFloatFormat.ffFixed, 8, 1);
+    result := floattostrf((value ), TFloatFormat.ffFixed, 8, 1);
   end;
 
 begin
@@ -125,12 +125,12 @@ begin
   PaintBox1.Repaint;
 end;
 
-function TForm3.fetchMetrics: TMetrics;
+function TForm1.fetchMetrics: TMetrics;
 begin
   result := TMetrics.Create(Font);
 end;
 
-procedure TForm3.DrawGuide(Canvas: TCanvas; const ClipRect: TRectF;
+procedure TForm1.DrawGuide(Canvas: TCanvas; const ClipRect: TRectF;
   const Opacity: single = 1);
 
 const long: single = 6;
@@ -138,8 +138,8 @@ var p, d: TPointF;
 
 begin
   Canvas.Stroke.Color := TAlphaColors.Gray;
-  Canvas.Stroke.Kind := TBrushKind.Solid;;
-  Canvas.Stroke.Thickness := 1;
+  Canvas.Stroke.Kind := TBrushKind.bkSolid;
+  Canvas.StrokeThickness := 1;
     begin
       p.X := ClipRect.Left + long;
       p.Y := ClipRect.Top;
@@ -178,16 +178,20 @@ begin
     end;
 end;
 
-procedure TForm3.FormCreate(Sender: TObject);
+procedure TForm1.FormCreate(Sender: TObject);
+var i: integer;
 begin
   Font := TFont.Create;
   Printer.ActivePrinter;
   Listbox1.Items.AddStrings(Printer.Fonts);
   ListBox1.Sorted := true;
+  for i := 0 to ListBox1.Items.Count -1  do
+    ListBox1.ListItems[i].Font.Size := Edit1.Font.Size;
+  Font.Family := edit2.Text;
   DisplayMetrics;
 end;
 
-procedure TForm3.FormResize(Sender: TObject);
+procedure TForm1.FormResize(Sender: TObject);
 var r: single;
 begin
   Layout1.Height := ClientHeight;
@@ -198,7 +202,14 @@ begin
   Layout1.Scale.Y := r;
 end;
 
-procedure TForm3.ListBox1ItemClick(const Sender: TCustomListBox;
+procedure TForm1.ListBox1Click(Sender: TObject);
+begin
+  edit2.Text := ListBox1.Items[ListBox1.ItemIndex];
+  Font.Family := edit2.Text;
+  Refresh;
+end;
+
+procedure TForm1.ListBox1ItemClick(const Sender: TCustomListBox;
   const Item: TListBoxItem);
 begin
   edit2.Text := Item.Text;
@@ -206,7 +217,7 @@ begin
   Refresh;
 end;
 
-procedure TForm3.ListBox1KeyUp(Sender: TObject; var Key: Word;
+procedure TForm1.ListBox1KeyUp(Sender: TObject; var Key: Word;
   var KeyChar: Char; Shift: TShiftState);
 begin
   if Key = 13 then
@@ -217,7 +228,7 @@ begin
   end;
 end;
 
-procedure TForm3.PaintBox1MouseWheel(Sender: TObject; Shift: TShiftState;
+procedure TForm1.PaintBox1MouseWheel(Sender: TObject; Shift: TShiftState;
   WheelDelta: Integer; var Handled: Boolean);
 begin
   if ssCtrl in Shift then
@@ -236,7 +247,7 @@ begin
   end;
 end;
 
-procedure TForm3.PaintBox1Paint(Sender: TObject; Canvas: TCanvas);
+procedure TForm1.PaintBox1Paint(Sender: TObject; Canvas: TCanvas);
 var r: TRectF;
     s: string;
     t: single;
@@ -255,12 +266,12 @@ begin
   r.Bottom := t + (Canvas.TextHeight(s) / 2);
   r.Top := r.Bottom - Canvas.TextHeight(s);
 
-  PaintBox1.Canvas.FillText(r , s, false, 1, [{TFillTextFlag.ftRightToLeft}], TTextAlign.Center, TTextAlign.Leading);
+  PaintBox1.Canvas.FillText(r , s, false, 1, [{TFillTextFlag.ftRightToLeft}], TTextAlign.taCenter, TTextAlign.taLeading);
 
   DrawGuide(PaintBox1.Canvas, r);
   m := TMetrics.Create(Font);
   Canvas.Stroke.Color := TAlphaColors.Black;
-  Canvas.Stroke.Kind := TBrushKind.Solid;
+  Canvas.Stroke.Kind := TBrushKind.bkSolid;
   t := m.Ascender + r.Top;
   PaintBox1.Canvas.DrawLine(TPointF.Create(r.Right - 5, t), TPointF.Create(r.Right, t), 0.5);
   t := m.Caps + r.Top;
@@ -272,7 +283,7 @@ begin
   m.Free;
 end;
 
-procedure TForm3.Refresh;
+procedure TForm1.Refresh;
 begin
   PaintBox1.Repaint;
   DisplayMetrics;
@@ -286,37 +297,36 @@ var r: TRectF;
     p: TPathData;
     i: integer;
 begin
-  canvas := Form3.PaintBox1.Canvas;
+  canvas := Form1.PaintBox1.Canvas;
   p := TPathData.Create;
   canvas.Font.Family := Font.Family;
   canvas.Font.Size := font.Size;
   canvas.Font.Style := font.Style;
   FTop := 0;
-  FBottom := Canvas.TextHeight('A') * canvas.Scale;
-  r.Right := Canvas.TextWidth('A') * canvas.Scale;
+  FBottom := Canvas.TextHeight('A');
+  r.Right := Canvas.TextWidth('A');
   r.Bottom := Bottom;
   r.Top := 0;
   r.Left := 0;
-  canvas.TextToPath(p, r, 'I', false, TTextAlign.Leading, TTextAlign.Trailing);
+  canvas.TextToPath(p, r, 'I', false, TTextAlign.taLeading, TTextAlign.taTrailing);
   FAscender := p[0].Point.y;
-  FBase := p[1].Point.y;
-  for i := 1 to p.Count - 1 do
+  FBase := p[0].Point.y;
+  for i := 1 to p.Count - 2 do
   begin
     if p[i].Point.y < Ascender then FAscender := p[i].Point.y;
     if p[i].Point.y > Base then FBase := p[i].Point.y;
   end;
   p.Clear;
-  canvas.TextToPath(p, r, 'y', false, TTextAlign.Leading, TTextAlign.Trailing);
-//  showmessage(p.Data);
-  FCaps := p[1].Point.y;
+  canvas.TextToPath(p, r, 'y', false, TTextAlign.taLeading, TTextAlign.taTrailing);
+//  showmessage(inttostr(p.Count) + ' - ' + p.Data);
+  FCaps := p[0].Point.y;
   FDescender := p[0].Point.y;
-  for i := 1 to p.Count - 1 do
+  for i := 0 to p.Count - 2 do
   begin
     if p[i].Point.y < Caps then FCaps := p[i].Point.y;
     if p[i].Point.y > Descender then FDescender := p[i].Point.y;
   end;
   p.Free;
 end;
-
 
 end.

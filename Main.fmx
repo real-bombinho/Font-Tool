@@ -1,224 +1,211 @@
-object Form3: TForm3
+object Form1: TForm1
   Left = 0
   Top = 0
-  BorderStyle = SizeToolWin
   Caption = 'Font Tool'
-  ClientHeight = 480
+  BorderStyle = bsSizeToolWin
+  ClientHeight = 487
   ClientWidth = 715
-  FormFactor.Width = 320
-  FormFactor.Height = 480
-  FormFactor.Devices = [Desktop]
+  Visible = False
   OnCreate = FormCreate
-  DesignerMasterStyle = 0
+  OnResize = FormResize
+  StyleLookup = 'backgroundstyle'
   object Layout1: TLayout
-    Align = Top
-    Size.Width = 715.000000000000000000
-    Size.Height = 473.000000000000000000
-    Size.PlatformDefault = False
-    TabOrder = 0
+    Align = alTop
+    Width = 715.000000000000000000
+    Height = 473.000000000000000000
     object ListBox1: TListBox
-      Position.X = 32.000000000000000000
-      Position.Y = 48.000000000000000000
-      Size.Width = 200.000000000000000000
-      Size.Height = 409.000000000000000000
-      Size.PlatformDefault = False
+      Position.Point = '(32,48)'
+      Width = 209.000000000000000000
+      Height = 393.000000000000000000
+      OnKeyUp = ListBox1KeyUp
+      OnClick = ListBox1Click
       TabOrder = 0
       DisableFocusEffect = True
-      DefaultItemStyles.ItemStyle = ''
-      DefaultItemStyles.GroupHeaderStyle = ''
-      DefaultItemStyles.GroupFooterStyle = ''
-      OnKeyUp = ListBox1KeyUp
-      OnItemClick = ListBox1ItemClick
-      Viewport.Width = 196.000000000000000000
-      Viewport.Height = 405.000000000000000000
     end
     object Label1: TLabel
-      Position.X = 32.000000000000000000
-      Position.Y = 24.000000000000000000
-      Text = 'Fonts'
+      Position.Point = '(32,24)'
+      Width = 120.000000000000000000
+      Height = 15.000000000000000000
       TabOrder = 1
+      Font.Family = 'Default'
+      Font.Size = 12.000000000000000000
+      Text = 'Fonts'
     end
     object Panel1: TPanel
-      Position.X = 312.000000000000000000
-      Position.Y = 136.000000000000000000
-      Size.Width = 241.000000000000000000
-      Size.Height = 313.000000000000000000
-      Size.PlatformDefault = False
+      Position.Point = '(312,136)'
+      Width = 217.000000000000000000
+      Height = 305.000000000000000000
       TabOrder = 2
       object PaintBox1: TPaintBox
-        Align = Center
-        Size.Width = 234.000000000000000000
-        Size.Height = 305.000000000000000000
-        Size.PlatformDefault = False
+        Align = alCenter
+        Position.Point = '(8,8)'
+        Width = 201.000000000000000000
+        Height = 289.000000000000000000
         OnMouseWheel = PaintBox1MouseWheel
         OnPaint = PaintBox1Paint
       end
     end
     object Label2: TLabel
-      Position.X = 272.000000000000000000
-      Position.Y = 80.000000000000000000
-      Size.Width = 33.000000000000000000
-      Size.Height = 17.000000000000000000
-      Size.PlatformDefault = False
-      Text = 'Size'
+      Position.Point = '(272,80)'
+      Width = 120.000000000000000000
+      Height = 15.000000000000000000
       TabOrder = 3
+      Font.Family = 'Default'
+      Font.Size = 12.000000000000000000
+      Text = 'Size'
     end
     object Edit1: TEdit
-      Touch.InteractiveGestures = [LongTap, DoubleTap]
-      TabOrder = 4
-      Text = '18'
-      TextSettings.HorzAlign = Trailing
-      Position.X = 312.000000000000000000
-      Position.Y = 80.000000000000000000
-      Size.Width = 89.000000000000000000
-      Size.Height = 22.000000000000000000
-      Size.PlatformDefault = False
+      Position.Point = '(312,80)'
+      Width = 121.000000000000000000
+      Height = 22.000000000000000000
       OnKeyDown = Edit1KeyDown
       OnKeyUp = Edit1KeyUp
+      TabOrder = 4
+      Font.Family = 'Default'
+      Font.Size = 12.000000000000000000
+      TextAlign = taTrailing
+      KeyboardType = vktDefault
+      Password = False
+      Text = '18'
     end
     object Edit2: TEdit
-      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Position.Point = '(312,48)'
+      Width = 281.000000000000000000
+      Height = 22.000000000000000000
       TabOrder = 5
+      Font.Family = 'Default'
+      Font.Size = 12.000000000000000000
+      TextAlign = taCenter
       ReadOnly = True
+      KeyboardType = vktDefault
+      Password = False
       Text = 'Arial'
-      TextSettings.HorzAlign = Center
-      Position.X = 312.000000000000000000
-      Position.Y = 48.000000000000000000
-      Size.Width = 273.000000000000000000
-      Size.Height = 22.000000000000000000
-      Size.PlatformDefault = False
     end
     object Label3: TLabel
-      Position.X = 264.000000000000000000
-      Position.Y = 48.000000000000000000
-      Size.Width = 41.000000000000000000
-      Size.Height = 17.000000000000000000
-      Size.PlatformDefault = False
-      Text = 'Name'
+      Position.Point = '(264,48)'
+      Width = 120.000000000000000000
+      Height = 15.000000000000000000
       TabOrder = 6
+      Font.Family = 'Default'
+      Font.Size = 12.000000000000000000
+      Text = 'Name'
     end
     object Label4: TLabel
-      Position.X = 560.000000000000000000
-      Position.Y = 120.000000000000000000
-      Size.Width = 41.000000000000000000
-      Size.Height = 17.000000000000000000
-      Size.PlatformDefault = False
-      Text = 'Metrics'
+      Position.Point = '(560,120)'
+      Width = 120.000000000000000000
+      Height = 15.000000000000000000
       TabOrder = 7
+      Font.Family = 'Default'
+      Font.Size = 12.000000000000000000
+      Text = 'Metrics'
     end
     object Label5: TLabel
-      Position.X = 560.000000000000000000
-      Position.Y = 152.000000000000000000
-      Size.Width = 65.000000000000000000
-      Size.Height = 17.000000000000000000
-      Size.PlatformDefault = False
+      Position.Point = '(560,152)'
+      Width = 120.000000000000000000
+      Height = 15.000000000000000000
+      TabOrder = 8
+      Font.Family = 'Default'
+      Font.Size = 12.000000000000000000
       Text = 'Top'
-      TabOrder = 13
     end
     object Label6: TLabel
-      Position.X = 560.000000000000000000
-      Position.Y = 200.000000000000000000
-      Size.Width = 65.000000000000000000
-      Size.Height = 17.000000000000000000
-      Size.PlatformDefault = False
+      Position.Point = '(560,200)'
+      Width = 120.000000000000000000
+      Height = 15.000000000000000000
+      TabOrder = 9
+      Font.Family = 'Default'
+      Font.Size = 12.000000000000000000
       Text = 'Ascender'
-      TabOrder = 12
     end
     object Label7: TLabel
-      Position.X = 560.000000000000000000
-      Position.Y = 296.000000000000000000
-      Size.Width = 65.000000000000000000
-      Size.Height = 17.000000000000000000
-      Size.PlatformDefault = False
+      Position.Point = '(560,296)'
+      Width = 120.000000000000000000
+      Height = 15.000000000000000000
+      TabOrder = 10
+      Font.Family = 'Default'
+      Font.Size = 12.000000000000000000
       Text = 'Base '
-      TabOrder = 11
     end
     object Label8: TLabel
-      Position.X = 560.000000000000000000
-      Position.Y = 344.000000000000000000
-      Size.Width = 65.000000000000000000
-      Size.Height = 17.000000000000000000
-      Size.PlatformDefault = False
+      Position.Point = '(560,344)'
+      Width = 120.000000000000000000
+      Height = 15.000000000000000000
+      TabOrder = 11
+      Font.Family = 'Default'
+      Font.Size = 12.000000000000000000
       Text = 'Descender'
-      TabOrder = 9
     end
     object Label9: TLabel
-      Position.X = 560.000000000000000000
-      Position.Y = 424.000000000000000000
-      Size.Width = 65.000000000000000000
-      Size.Height = 17.000000000000000000
-      Size.PlatformDefault = False
+      Position.Point = '(560,424)'
+      Width = 120.000000000000000000
+      Height = 15.000000000000000000
+      TabOrder = 12
+      Font.Family = 'Default'
+      Font.Size = 12.000000000000000000
       Text = 'Bottom'
-      TabOrder = 8
     end
     object Label10: TLabel
-      Position.X = 632.000000000000000000
-      Position.Y = 152.000000000000000000
-      Size.Width = 50.000000000000000000
-      Size.Height = 17.000000000000000000
-      Size.PlatformDefault = False
-      TextSettings.HorzAlign = Trailing
+      Position.Point = '(632,152)'
+      Width = 120.000000000000000000
+      Height = 15.000000000000000000
+      TabOrder = 13
+      Font.Family = 'Default'
+      Font.Size = 12.000000000000000000
       Text = '0'
-      TabOrder = 19
     end
     object Label11: TLabel
-      Position.X = 632.000000000000000000
-      Position.Y = 200.000000000000000000
-      Size.Width = 50.000000000000000000
-      Size.Height = 17.000000000000000000
-      Size.PlatformDefault = False
-      TextSettings.HorzAlign = Trailing
+      Position.Point = '(632,200)'
+      Width = 120.000000000000000000
+      Height = 15.000000000000000000
+      TabOrder = 14
+      Font.Family = 'Default'
+      Font.Size = 12.000000000000000000
       Text = '0'
-      TabOrder = 18
     end
     object Label12: TLabel
-      Position.X = 632.000000000000000000
-      Position.Y = 296.000000000000000000
-      Size.Width = 50.000000000000000000
-      Size.Height = 17.000000000000000000
-      Size.PlatformDefault = False
-      TextSettings.HorzAlign = Trailing
+      Position.Point = '(632,296)'
+      Width = 120.000000000000000000
+      Height = 15.000000000000000000
+      TabOrder = 15
+      Font.Family = 'Default'
+      Font.Size = 12.000000000000000000
       Text = '0'
-      TabOrder = 17
     end
     object Label13: TLabel
-      Position.X = 632.000000000000000000
-      Position.Y = 344.000000000000000000
-      Size.Width = 50.000000000000000000
-      Size.Height = 17.000000000000000000
-      Size.PlatformDefault = False
-      TextSettings.HorzAlign = Trailing
-      Text = '0'
+      Position.Point = '(632,344)'
+      Width = 120.000000000000000000
+      Height = 15.000000000000000000
       TabOrder = 16
+      Font.Family = 'Default'
+      Font.Size = 12.000000000000000000
+      Text = '0'
     end
     object Label14: TLabel
-      Position.X = 632.000000000000000000
-      Position.Y = 424.000000000000000000
-      Size.Width = 50.000000000000000000
-      Size.Height = 17.000000000000000000
-      Size.PlatformDefault = False
-      TextSettings.HorzAlign = Trailing
+      Position.Point = '(632,424)'
+      Width = 120.000000000000000000
+      Height = 15.000000000000000000
+      TabOrder = 17
+      Font.Family = 'Default'
+      Font.Size = 12.000000000000000000
       Text = '0'
-      TabOrder = 14
     end
     object Label15: TLabel
-      Position.X = 560.000000000000000000
-      Position.Y = 256.000000000000000000
-      Size.Width = 65.000000000000000000
-      Size.Height = 17.000000000000000000
-      Size.PlatformDefault = False
+      Position.Point = '(560,256)'
+      Width = 120.000000000000000000
+      Height = 15.000000000000000000
+      TabOrder = 18
+      Font.Family = 'Default'
+      Font.Size = 12.000000000000000000
       Text = 'Caps'
-      TabOrder = 10
     end
     object Label16: TLabel
-      Position.X = 632.000000000000000000
-      Position.Y = 256.000000000000000000
-      Size.Width = 50.000000000000000000
-      Size.Height = 17.000000000000000000
-      Size.PlatformDefault = False
-      TextSettings.HorzAlign = Trailing
+      Position.Point = '(632,256)'
+      Width = 120.000000000000000000
+      Height = 15.000000000000000000
+      TabOrder = 19
+      Font.Family = 'Default'
+      Font.Size = 12.000000000000000000
       Text = '0'
-      TabOrder = 15
     end
   end
 end
